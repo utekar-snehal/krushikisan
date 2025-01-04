@@ -1,0 +1,523 @@
+function toggledropdown(){
+            var dropdown = document.getElementById("dropdown");
+            dropdown.style.displaym = (dropdown.style.display ==="block")? "none" : "block";
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+INSERT INTO products (Product_Name,Product_Img, Product_Category, Product_Info, Product_Price , Product_Created_At , Product_Updated_At)
+SELECT Grains_Name, Grains_Img, 'grain' AS Product_Category , Grains_Info,Grains_Price,Grains_Created, other_columns
+FROM grains;
+
+
+
+
+INSERT INTO products (Product_Name,Product_Img, Product_Category, Product_Info, Product_Price , Product_Created_At)
+SELECT Grains_Name, Grains_Image, 'Grains' AS Product_Category , Grains_Info,Grains_Price,Grains_Created_At
+FROM grains;
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>College Complaint Box</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #f5f5f5;
+      background-image:url('a123.jpg');
+    }
+
+    #complaint-container, #live-chat {
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px;
+      width: 80%;
+      max-width: 600px;
+      text-align: center;
+    }
+
+    #complaint-box, #chat-box {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      resize: vertical;
+    }
+
+    button {
+      padding: 10px;
+      margin-top: 10px;
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #live-chat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+
+    }
+
+
+
+    #chat-box {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      overflow-y: scroll;
+      flex-grow: 1;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      max-height: 300px;
+    }
+  </style>
+</head>
+<body>
+
+
+  <div id="live-chat">
+    <h1>Live Chat</h1>
+    
+    <ul id="chat-box"></ul>
+
+  </div>
+
+  <div id="complaint-container">
+    <h2>Enter your text here ...</h2>
+    <textarea id="complaint-box" placeholder="Write your chat here..."></textarea>
+    <button onclick="submitComplaint()">Send</button>
+ 
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    function submitComplaint() {
+      const complaint = document.getElementById('complaint-box').value.trim();
+      if (complaint !== '') {
+        socket.emit('complaint', complaint);
+        document.getElementById('complaint-box').value = '';
+        appendMessage(`my msg: ${complaint}`);
+      }
+    }
+
+    function sendMessage() {
+      const message = document.getElementById('m').value.trim();
+      if (message !== '') {
+        socket.emit('chat message', message);
+        document.getElementById('m').value = '';
+        appendMessage(`Comment: ${message}`);
+      }
+    }
+
+    function appendMessage(msg) {
+      const ul = document.getElementById('chat-box');
+      const li = document.createElement('li');
+      li.appendChild(document.createTextNode(msg));
+      ul.appendChild(li);
+      // Scroll to the bottom of the chat
+      ul.scrollTop = ul.scrollHeight;
+    }
+
+    socket.on('complaint', function(complaint){
+      appendMessage(`Complaint: ${complaint}`);
+    });
+
+    socket.on('chat message', function(msg){
+      appendMessage(`Comment: ${msg}`);
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            background-image: url('a123.jpg');
+        }
+
+        #live-chat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+        }
+
+        #messageOutput {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            overflow-y: scroll;
+            flex-grow: 1;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            max-height: 400px;
+            background-color: white;
+        }
+
+        #container,
+        #live-chat {
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid black;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px;
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        #messageInput,
+        #messageOutput {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: vertical;
+        }
+
+        button {
+            padding: 10px;
+            margin-top: 5px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        user-message{
+          text-align:right;
+        }
+
+        other-message{
+          text-align:left;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+
+    <?php
+// Start session
+session_start();
+
+// Check if a product is selected
+if(isset($_POST['selected_product'])) {
+    $selectedProductName = $_POST['selected_product'];
+
+    $query = "SELECT * FROM products WHERE Product_id = '$selectedProductName'";
+    $result = $conn->query($query);
+
+
+    if ($result->num_rows == 1) {
+        // User found, perform login actions
+        $row = $result->fetch_assoc();
+
+        // Store user information in the session
+        $_SESSION['id'] = $row['Product_id'];
+        $_SESSION['name'] = $row['Product_name'];
+        $_SESSION['price'] = $row['Product_price'];  
+        $_SESSION['img'] = $row['Product_img'];
+        $_SESSION['info'] = $row['Product_info'];
+        $_SESSION['time'] = $row['Product_updated_at'];
+    
+  
+
+    header("Location: farmercropsinfo.php");
+    exit;
+}
+
+// Database connection
+include('connect.php');
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+?>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KRUSHIKISAN Crops</title>
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #232f3e;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-around;
+        }
+
+        .product-box {
+            width: 200px;
+            height:auto;
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+            border-radius:5%;
+        }
+
+        .product-box:hover {
+            transform: scale(1.02);
+            background-color: #ECECEC; 
+        }
+
+        .product-box img {
+
+            max-width: 100%;
+            height: 200px;
+        }
+        main{
+
+            margin-top:5%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>KRUSHIKISAN Crops</h1>
+    </header>
+
+    <nav>
+        <a href="#" onclick="showSection('commodities')">Commodities</a>
+        <a href="#" onclick="showSection('equipment')">Farming Equipment</a>
+        <a href="chatbox.php" >Chat box</a>
+    </nav>
+
+    <main>
+        <section id="commodities" class="product-container">
+            <!-- Commodities Section -->
+            <?php
+        
+             // Database connection
+
+             $servername = "localhost";
+             $username = "root";
+             $password = "";
+             $dbname = "krushikisan";
+
+             $conn = new mysqli($servername, $username, $password, $dbname);
+
+             if ($conn->connect_error) {
+                 die("Connection failed: " . $conn->connect_error);
+             }
+                // SQL query to fetch commodities
+                $sqlCommodities = "SELECT * FROM Products";
+                $resultCommodities = $conn->query($sqlCommodities);
+
+                if ($resultCommodities->num_rows > 0) {
+                    while ($row = $resultCommodities->fetch_assoc()) {
+                        echo '<form method="post">';
+                        echo '<div class="product-box">';
+                        echo '<img src= "'  . $row["Product_img"] .  '"  alt="'. $row["Product_name"] . '">';
+                        echo '<h3>' . $row["Product_name"] . '</h3>';
+                        echo '<p>$' . $row["Product_price"] . '</p>';
+                        echo '<input type="hidden" name="selected_product" value="' . $row["Product_name"] . '">';
+                        echo '<input type="hidden" name="selected_product_image" value="' . $row["Product_img"] . '">';
+                        echo '<input type="hidden" name="selected_product_price" value="' . $row["Product_price"] . '">'; // Add this line
+                        echo '<button type="submit">Buy Now</button>';
+                        echo '</div>';
+                        echo '</form>';
+                    }
+                } else {
+                    echo "<p>No commodities available</p>";
+                }
+
+                $conn->close();
+                ?>
+        
+        </section>
+
+        <section id="equipment" class="product-container" style="display: none;">
+            <!-- Farming Equipment Section -->
+            <?php
+                // Database connection (you may need to reconnect if needed)
+                $conn = new mysqli($servername, $username, $password, $dbname);
+
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+
+                // SQL query to fetch farming equipment
+                $sqlEquipment = "SELECT * FROM Equipments ";
+                $resultEquipment = $conn->query($sqlEquipment);
+
+                if ($resultEquipment->num_rows > 0) {
+                    while ($row = $resultEquipment->fetch_assoc()) {
+                        echo '<form method="post">';
+                        echo '<div class="product-box">';
+                        echo '<img src="' . $row["Equip_img"] . '" alt="' . $row["Equip_name"] . '">';
+                        echo '<h3>' . $row["Equip_name"] . '</h3>';
+                        echo '<p>$' . $row["Equip_price"] . '</p>';
+                        echo '<input type="hidden" name="selected_product" value="' . $row["Equip_name"] . '">';
+                        echo '<input type="hidden" name="selected_product_image" value="' . $row["Equip_img"] . '">';
+                        echo '<input type="hidden" name="selected_product_price" value="' . $row["Equip_price"] . '">'; // Add this line
+                        echo '<button type="submit">Buy Now</button>';
+                        echo '</div>';
+                        echo '</form>';
+                    }
+                } else {
+                    echo "<p>No farming equipment available</p>";
+                }
+
+                $conn->close();
+                ?>
+        </section>
+    </main>
+
+    <script>
+        // JavaScript function to show and hide sections
+        function showSection(sectionId) {
+            var sections = document.querySelectorAll('.product-container');
+            sections.forEach(function(section) {
+                section.style.display = 'none';
+            });
+
+            document.getElementById(sectionId).style.display = 'flex';
+        }
+
+        // Set default section to Commodities
+        showSection('commodities');
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php
+// Start session
+session_start();
+
+// Check if a product is selected
+if(isset($_POST['selected_product'])) {
+    $selectedProductName = $_POST['selected_product'];
+    $selectedProductImage = $_POST['selected_product_image']; // Add this line
+    $selectedProductPrice = $_POST['selected_product_price']; // Add this line
+    
+    // Set selected product in session variables
+    $_SESSION['selected_product'] = $selectedProductName;
+    $_SESSION['selected_product_image'] = $selectedProductImage;
+    $_SESSION['selected_product_price'] = $selectedProductPrice; // Add this line
+    
+    // Redirect to checkout page
+    header("Location:farmercropsinfo.php");
+    exit;
+}
+
+// Database connection
+include('connect.php');
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+?>
+
+
+
+
